@@ -1,0 +1,103 @@
+project_name: coinrun_world_model
+seed: 123
+device: auto
+output_root: runs
+
+env:
+  name: coinrun
+  distribution_mode: easy
+  center_agent: true
+  use_backgrounds: true
+  render_mode: rgb_array
+  num_actions: 15
+  height: 64
+  width: 64
+  channels: 3
+  splits:
+    train:
+      start_level: 0
+      num_levels: 500
+      total_frames: 250000
+    val:
+      start_level: 10000
+      num_levels: 100
+      total_frames: 25000
+    test:
+      start_level: 20000
+      num_levels: 100
+      total_frames: 25000
+
+data:
+  root: data/procgen_coinrun_v1
+  chunk_frames: 2048
+  episode_cap: 256
+  action_mix:
+    uniform: 0.50
+    sticky: 0.35
+    platformer_biased: 0.15
+  sticky_keep_prob: 0.85
+  platformer_probs:
+    "7": 0.35
+    "8": 0.25
+    "4": 0.20
+    "1": 0.10
+    "5": 0.05
+    other: 0.05
+
+training:
+  batch_size: 64
+  num_workers: 4
+  lr: 0.0003
+  weight_decay: 0.01
+  epochs: 20
+  max_steps: null
+  log_every: 50
+  val_every: 500
+  save_every: 1000
+  amp: true
+
+vqvae:
+  codebook_size: 512
+  code_dim: 128
+  beta: 0.25
+  hidden_channels: 128
+  checkpoint: null
+
+transformer:
+  context_frames: 8
+  train_horizon: 1
+  latent_h: 8
+  latent_w: 8
+  layers: 6
+  heads: 8
+  width: 512
+  dropout: 0.1
+  max_seq_len: 1024
+  top_k: 50
+  temperature: 0.9
+  condition_actions: true
+  checkpoint: null
+
+eval:
+  split: test
+  clips: 512
+  batch_size: 16
+  rollout_steps: [1, 2, 4, 8, 16, 32]
+  context_ablations: [1, 4, 8]
+  fvd_clip_len: 16
+  fvd_backend: rgb_motion
+  probe_steps: 1000
+  probe_batch_size: 64
+  counterfactual_actions: [4, 1, 7, 8]
+
+demo:
+  host: 127.0.0.1
+  port: 8000
+  split: test
+  mock_if_missing: true
+  show_context_frames: 4
+
+reports:
+  report_dir: outputs/report
+  blog_dir: outputs/blog
+  metrics_glob: runs/evaluate/*/metrics_summary.json
