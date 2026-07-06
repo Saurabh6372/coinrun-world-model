@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CoinRun World Model</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="stage">
+        <canvas id="canvas" width="512" height="512" aria-label="Generated CoinRun frame"></canvas>
+        <div id="context" class="context"></div>
+      </section>
+      <aside class="panel">
+        <div class="status">
+          <span id="modelState">loading</span>
+          <strong id="actionName">NOOP</strong>
+        </div>
+        <label>
+          Temperature
+          <input id="temperature" type="range" min="0.4" max="1.6" step="0.05" value="0.9" />
+        </label>
+        <label>
+          Top-k
+          <input id="topk" type="number" min="1" max="512" value="50" />
+        </label>
+        <div class="buttons">
+          <button id="reset">Reset</button>
+          <button data-action="4">Noop</button>
+          <button data-action="1">Left</button>
+          <button data-action="7">Right</button>
+          <button data-action="8">Right + Up</button>
+        </div>
+      </aside>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+
