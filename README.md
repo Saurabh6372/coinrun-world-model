@@ -1,12 +1,3 @@
----
-license: mit
-tags:
-- reinforcement-learning
-- world-models
-- procgen
-- pytorch
----
-
 # CoinRun World Model — an action-conditioned neural game engine
 
 A world model that learns the dynamics of the [Procgen CoinRun](https://github.com/openai/procgen) environment well enough to be **played interactively**: your key presses condition an autoregressive transformer that generates the next frame — physics, rendering, and game logic all inferred by the network.
