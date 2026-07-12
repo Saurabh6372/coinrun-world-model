@@ -1,3 +1,11 @@
+---
+license: mit
+tags:
+- reinforcement-learning
+- world-models
+- procgen
+- pytorch
+---
 # Action-Conditioned World Model for CoinRun
 
 This repository contains a full pipeline for training an action-conditioned World Model on the Procgen CoinRun environment. The model is capable of hallucinating and simulating the game engine dynamics, physics, and rendering entirely within its neural network, conditioned on user input.
