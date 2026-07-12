@@ -41,7 +41,7 @@ def valid_sequence_starts(root: Any, frames_per_sequence: int, stride: int = 1) 
         end = start + frames_per_sequence
         if episode_id[start] != episode_id[end - 1]:
             continue
-        if dones[start : end - 1].any():
+        if dones[start:end].any():
             continue
         starts.append(start)
     return np.asarray(starts, dtype=np.int64)
