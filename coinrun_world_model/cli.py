@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.console import Console
@@ -19,7 +18,7 @@ def _cfg(config: Path, overrides: list[str] | None):
 @app.command()
 def collect(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Collect Procgen CoinRun frames/actions into Zarr splits."""
     from coinrun_world_model.data.collect import collect_dataset
@@ -32,7 +31,7 @@ def collect(
 @app.command("train-vqvae")
 def train_vqvae_cmd(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Train the frame VQ-VAE tokenizer."""
     from coinrun_world_model.train_vqvae import train_vqvae
@@ -44,7 +43,7 @@ def train_vqvae_cmd(
 @app.command()
 def encode(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Encode frames into VQ code indices."""
     from coinrun_world_model.encode import encode_dataset
@@ -56,7 +55,7 @@ def encode(
 @app.command("train-transformer")
 def train_transformer_cmd(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Train the action-conditioned latent transformer."""
     from coinrun_world_model.train_transformer import train_transformer
@@ -68,7 +67,7 @@ def train_transformer_cmd(
 @app.command()
 def evaluate(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Evaluate rollout fidelity and action consistency."""
     from coinrun_world_model.evaluate import evaluate as run_evaluate
@@ -80,7 +79,7 @@ def evaluate(
 @app.command()
 def demo(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Launch the interactive keyboard demo."""
     from coinrun_world_model.demo.server import serve_demo
@@ -93,7 +92,7 @@ def demo(
 @app.command()
 def report(
     config: Path = typer.Option(Path("configs/default.yaml"), "--config", "-c"),
-    overrides: Optional[list[str]] = typer.Argument(None),
+    overrides: list[str] | None = typer.Argument(None),
 ):
     """Render the arXiv-style report and blog post assets."""
     from coinrun_world_model.report import render_reports

@@ -4,9 +4,10 @@ import csv
 import json
 import math
 import random
+from collections.abc import Iterable
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 import numpy as np
 from PIL import Image

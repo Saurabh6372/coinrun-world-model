@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 import torch
-from torch import nn
 import torch.nn.functional as F
+from torch import nn
 from torch.utils.data import DataLoader
 
 from coinrun_world_model.data.zarr_dataset import FrameSequenceDataset
@@ -63,7 +63,12 @@ def train_probe(cfg: Any, device) -> InverseDynamicsProbe:
 
 
 @torch.no_grad()
-def probe_accuracy(probe: InverseDynamicsProbe, frame_t: torch.Tensor, frame_tp1: torch.Tensor, actions: torch.Tensor) -> float:
+def probe_accuracy(
+    probe: InverseDynamicsProbe,
+    frame_t: torch.Tensor,
+    frame_tp1: torch.Tensor,
+    actions: torch.Tensor,
+) -> float:
     probe.eval()
     logits = probe(frame_t, frame_tp1)
     pred = logits.argmax(dim=1)
