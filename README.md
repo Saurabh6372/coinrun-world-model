@@ -4,9 +4,11 @@ This repository contains a full pipeline for training an action-conditioned Worl
 
 ![World Model Demo](coinrun_world_model/demo/static/styles.css) <!-- Placeholder for actual demo gif if added later -->
 
-## 🎮 Play the AI (Live Demo)
-A live interactive demonstration of this model is deployed on Hugging Face Spaces. You can play the hallucinated game directly in your browser:
-**👉 [Play CoinRun World Model Demo on Hugging Face](https://huggingface.co/spaces/YOUR_USERNAME_HERE/coinrun-world-model) 👈**
+## 🤖 Trained Models (Hugging Face)
+All trained checkpoints, including the VQ-VAE and the Action-Conditioned Transformer (over 1GB of weights), are hosted publicly on Hugging Face:
+**👉 [Download Models from Hugging Face (MAURYASAURABH/coinrun-world-model)](https://huggingface.co/MAURYASAURABH/coinrun-world-model) 👈**
+
+*(Note: The live interactive web demo is fully supported locally. Hugging Face free tier currently restricts custom Docker space hosting.)*
 
 ---
 
