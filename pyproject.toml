@@ -20,7 +20,7 @@ dependencies = [
   "omegaconf>=2.3",
   "pandas>=2.2",
   "pillow>=10.3",
-  "procgen==0.10.7",
+
   "rich>=13.7",
   "scikit-image>=0.23",
   "scipy>=1.11",

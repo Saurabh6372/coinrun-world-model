@@ -1,60 +1,64 @@
-# CoinRun World Model
+# Action-Conditioned World Model for CoinRun
 
-Hey everyone! 👋 This is my personal side project that I started back in mid-June to dive deeper into reinforcement learning and world models. 
+This repository contains a full pipeline for training an action-conditioned World Model on the Procgen CoinRun environment. The model is capable of hallucinating and simulating the game engine dynamics, physics, and rendering entirely within its neural network, conditioned on user input.
 
-The goal here is pretty straightforward but challenging: I wanted to build a world model that can learn and simulate the dynamics of the Procgen CoinRun environment, conditioned on the agent's actions. 
+![World Model Demo](coinrun_world_model/demo/static/styles.css) <!-- Placeholder for actual demo gif if added later -->
 
-I've been chipping away at this over the last few weeks, working on different components of the pipeline, from data collection to training the models and finally putting together an interactive demo to see how well it learned.
+## 🎮 Play the AI (Live Demo)
+A live interactive demonstration of this model is deployed on Hugging Face Spaces. You can play the hallucinated game directly in your browser:
+**👉 [Play CoinRun World Model Demo on Hugging Face](https://huggingface.co/spaces/YOUR_USERNAME_HERE/coinrun-world-model) 👈**
 
-## Project Timeline 📅
+---
 
-Here's a quick look at how the project evolved since I started:
+## Architecture Overview
 
-* **June 15:** Kicked off the project. Set up the basic environment, dependencies, and repo structure.
-* **June 18:** Started drafting the core architectures. Added the foundational models and configurations to handle the 64x64 RGB observations.
-* **June 22:** Worked on the data pipeline. Wrote scripts to collect rollouts from CoinRun to build up a solid dataset for training.
-* **June 26:** Implemented and trained the VQ-VAE. This was crucial for compressing the visual frames into discrete latent codes to make sequence modeling tractable.
-* **June 30:** Brought in the Transformer! Wrote the causal sequence modeling code to predict future states based on the current state and action.
-* **July 3:** Built out the evaluation metrics. Needed a way to objectively measure rollout quality, so I added some probing and distance metrics.
-* **July 6:** Put the finishing touches on the codebase. Wrapped everything up into a clean CLI and built a neat little web demo so I can manually control the agent in the "dream" environment!
-* **July 7:** Final cleanups, bug fixes, and getting everything ready to push.
+The pipeline consists of two primary models:
+1. **VQ-VAE (Vector Quantized Variational Autoencoder):** Compresses the 64x64 RGB observations from the CoinRun environment into a discrete grid of latent tokens.
+2. **Action-Conditioned Transformer:** An autoregressive sequence model that takes the history of latent tokens and the player's chosen actions to predict the next future state of the game.
 
-## How to use it
+## Installation
 
-I'm using Procgen 0.10.7 which works well on Python 3.7-3.10.
+The environment requires Python 3.10. *(Note: Data collection requires `procgen`, which is incompatible with Apple Silicon Macs. Training is fully supported on Windows/Linux with NVIDIA GPUs.)*
 
 ```bash
 conda env create -f environment.yml
 conda activate coinrun-wm
+pip install -e .
 ```
 
-There are a few main commands you can run through the CLI (checkout `configs/default.yaml` for my training params):
+## Pipeline Usage
 
-1. **Collect Data:** Grab frames and actions from the environment.
-   ```bash
-   wm collect --config configs/default.yaml
-   ```
-2. **Train the Tokenizer:** Train the VQ-VAE on the collected frames.
-   ```bash
-   wm train-vqvae --config configs/default.yaml
-   ```
-3. **Encode Data:** Convert frames to latent codes using the trained VQ-VAE.
-   ```bash
-   wm encode --config configs/default.yaml vqvae.checkpoint=runs/vqvae/latest.pt
-   ```
-4. **Train the World Model:** Train the causal transformer on the encoded sequences.
-   ```bash
-   wm train-transformer --config configs/default.yaml
-   ```
-5. **Play:** Launch the interactive demo to test the model!
-   ```bash
-   wm demo --config configs/default.yaml
-   ```
+The project provides a unified CLI via the `wm` command. See `configs/default.yaml` for hyperparameters.
 
-## Notes
+### 1. Data Collection
+Generate the dataset by simulating the environment with various agent policies.
+```bash
+wm collect --config configs/default.yaml
+```
 
-- CoinRun observations are 64x64 RGB and the action space is discrete (15 possible actions).
-- I optimized this to run smoothly on a single GPU for full training, though I did some testing on CPU/Apple MPS for the mini runs.
-- I'm really proud of how the evaluation pipeline turned out, especially the Fréchet distance setup which runs without needing massive pretrained backends like I3D.
+### 2. VQ-VAE Training
+Train the visual tokenizer to compress frames into discrete latent codes.
+```bash
+wm train-vqvae --config configs/default.yaml
+```
 
-Feel free to poke around the code or run the demo yourself! Let me know if you have any questions or suggestions.
+### 3. Latent Encoding
+Pre-process the dataset by running all frames through the trained VQ-VAE.
+```bash
+wm encode --config configs/default.yaml vqvae.checkpoint=runs/vqvae/latest.pt
+```
+
+### 4. Transformer Training
+Train the causal sequence model on the encoded latent trajectories and actions.
+```bash
+wm train-transformer --config configs/default.yaml
+```
+
+### 5. Local Interactive Demo
+Launch the interactive web UI to play the world model locally.
+```bash
+wm demo --config configs/default.yaml
+```
+
+## Deployment
+A `Dockerfile` is included in the repository for easy deployment of the interactive demo to Hugging Face Spaces or any Docker-compatible hosting environment.

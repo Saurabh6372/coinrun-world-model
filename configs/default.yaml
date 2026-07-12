@@ -28,7 +28,7 @@ env:
       total_frames: 25000
 
 data:
-  root: data/procgen_coinrun_v1
+  root: data/procgen_coinrun_mini
   chunk_frames: 2048
   episode_cap: 256
   action_mix:
