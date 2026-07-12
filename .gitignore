@@ -16,3 +16,10 @@ outputs/blog/
 outputs/demo/
 
 remote_debug.log
+
+# Ignore local automation and sync scripts containing sensitive keys
+*.bat
+*.sh
+remote_debug.log
+reset.json
+step.json
