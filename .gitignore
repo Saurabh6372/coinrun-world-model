@@ -9,13 +9,13 @@ dist/
 build/
 *.egg-info/
 
-data/
+# Datasets are not tracked — except the tiny bundled mini split used by demos/tests.
+/data/*
+!/data/procgen_coinrun_mini/
 runs/
 outputs/report/
 outputs/blog/
 outputs/demo/
-
-remote_debug.log
 
 # Ignore local automation and sync scripts containing sensitive keys
 *.bat

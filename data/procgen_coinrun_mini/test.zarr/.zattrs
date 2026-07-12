@@ -1,0 +1,14 @@
+{
+    "action_alignment": "actions[t] is applied after frames[t] and leads to frames[t+1]",
+    "code_shape": [
+        8,
+        8
+    ],
+    "codebook_size": 64,
+    "env_name": "coinrun",
+    "episode_cap": 64,
+    "num_levels": 2,
+    "split": "test",
+    "start_level": 20000,
+    "total_frames": 128
+}
